@@ -172,7 +172,7 @@ function calculateAllIn() {
             pot_participants.forEach(p => {
                 if (b[p] == max_rank) {
                     players[p] += split;
-                    summary_temp += `<p>${p} wins ${split}</p>`;
+                    summary_temp += `<p>${p} wins ${Math.round(split)}</p>`;
                 }
             })
 
@@ -182,7 +182,7 @@ function calculateAllIn() {
     }
     var out = {};
     for (const key of player_list) {
-        out[key] = players[key] - players_copy[key];
+        out[key] = Math.round(players[key] - players_copy[key]);
     }
     return [out, summary];
 }
