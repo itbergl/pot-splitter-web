@@ -31,7 +31,7 @@ function submitPlayers() {
     myobj.remove();
 
     var codeBlock =
-        '<button type="button" onclick="submitPot()">Add Info</button>' +
+        '<button type="button" onclick="submitPot()">Next</button>' +
         '<div class="player-input">' +
         'Pot Size: <input type="number" id="fpot" name="fpot"><br><br>' +
         'Boards: <input type="number" id="fboard" name="fboard"></div>';
@@ -50,7 +50,7 @@ function submitPot() {
 
     var myobj = document.getElementById("pot-screen");
     myobj.remove();
-    var codeBlock = '<div><button type="button" onclick="submitWinners()">Submit Winners</button></div><table><tr><td></td>';
+    var codeBlock = '<div><button type="button" onclick="submitWinners()">Calculate Winners</button></div><table><tr><td></td>';
 
     for (let p in players) {
         codeBlock += '<td>' + p + '</td>'
