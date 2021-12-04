@@ -1,0 +1,163 @@
+var numPlayers = 0;
+var numBoards = 0;
+var players = {};
+var player_list = [];
+var pot = 0;
+var sidepot = {};
+var boards = [];
+
+function addPlayer() {
+    var div = document.createElement('div');
+    div.setAttribute('class', 'player-input');
+    div.innerHTML = document.getElementsByClassName('player-input')[0].innerHTML;
+    document.getElementById("players").appendChild(div);
+}
+
+function submitPlayers() {
+    var inputs = document.querySelector('#players').querySelectorAll(".player-input");
+    Array.prototype.forEach.call(inputs, element => {
+        var name = element.querySelector("#fname").value;
+        var chips = element.querySelector("#fchips").value;
+        if (name == "" || chips == "") return;
+        numPlayers++;
+        players[name] = parseInt(chips);
+        player_list.push(name);
+
+    });;
+
+    console.log(players);
+
+    var myobj = document.getElementById("player-screen");
+    myobj.remove();
+
+    var codeBlock =
+        '<div><button type="button" onclick="submitPot()">Add Info</button></div>' +
+        '<label for="fpot">Pot Size</label>' +
+        '<input type="number" id="fpot" name="fpot"><br><br>' +
+        '<label for="fboard">Boards</label>' +
+        '<input type="number" id="fboard" name="fboard"><br><br>';
+
+    var div = document.createElement('div');
+    div.setAttribute('id', 'pot-screen');
+    div.innerHTML = codeBlock;
+    document.getElementById("display").appendChild(div);
+}
+
+function submitPot() {
+
+    numBoards = parseInt(document.getElementById('fboard').value);
+
+    pot = parseInt(document.getElementById('fpot').value);
+
+    var myobj = document.getElementById("pot-screen");
+    myobj.remove();
+    var codeBlock = '<div><button type="button" onclick="submitWinners()">Submit Winners</button></div><table><tr><td></td>';
+
+    for (let p in players) {
+        codeBlock += '<td>' + p + '</td>'
+    }
+
+    codeBlock += '</tr>';
+
+    for (var i = 0; i < numBoards; i++) {
+        codeBlock += "<tr><td> Board " + (i + 1) + '</td>';
+
+        for (var j = 0; j < numPlayers; j++) {
+            codeBlock += '<td><input type="number" class="fpos"></td>'
+        }
+
+        codeBlock += "</tr>"
+    }
+
+    codeBlock += '</table>'
+
+    var div = document.createElement('div');
+    div.setAttribute('id', 'boards-screen');
+    div.innerHTML = codeBlock;
+    document.getElementById("display").appendChild(div);
+
+}
+
+function submitWinners() {
+    for (var i = 0; i < numBoards; i++) boards.push({});
+
+    var inputs = document.getElementsByClassName("fpos");
+
+    for (var i = 0; i < inputs.length; i++) {
+        var p = player_list[i % numPlayers];
+        var input = inputs[i].value;
+        if (input == '') input = numPlayers + 1;
+        boards[Math.floor(i / numPlayers)][p] = inputs[i].value;
+    }
+    var myobj = document.getElementById("boards-screen");
+    myobj.remove();
+
+    var results = calculateAllIn();
+
+
+    var codeBlock = '<table><tr><td></td>'
+
+    player_list.forEach(p => {
+        codeBlock += '<td>' + p + '</td>'
+    })
+    codeBlock += '</tr><tr><td>Net Gain</td>';
+
+    player_list.forEach(p => {
+        codeBlock += '<td>';
+        if (results[p] > 0) codeBlock += '+';
+        codeBlock += results[p] + '</td>'
+    })
+    codeBlock += '</tr></table>';
+
+    var div = document.createElement('div');
+    div.setAttribute('id', 'output-screen');
+    div.innerHTML = codeBlock;
+    document.getElementById("display").appendChild(div);
+}
+
+function calculateAllIn() {
+    var players_copy = {...players };
+
+    var first = true;
+
+    for (var i = 0; i < Object.keys(players).length; i++) {
+        if (Object.keys(players).length == 0) break;
+
+        var players_left = Object.keys(players).filter(key => players[key] > 0);
+
+        var mini = Math.min(...players_left.map(x => players[x]));
+        players_left.forEach(element => {
+            players[element] -= mini;
+        });
+
+        P = players_left.toString();
+
+        sidepot[P] = mini * players_left.length;
+        if (first) {
+            sidepot[P] += pot;
+            first = false;
+        }
+    }
+
+    for (const [key, value] of Object.entries(sidepot)) {
+        var pot_participants = key.split(',');
+        var pot_value = value;
+        boards.forEach(b => {
+            var max_rank = Math.min(...pot_participants.map(x => b[x]));
+            var count = pot_participants.filter(p => b[p] == max_rank).length;
+
+            var split = pot_value / (boards.length * count);
+
+            pot_participants.forEach(p => {
+                if (b[p] == max_rank) {
+                    players[p] += split;
+                }
+            })
+        })
+    }
+    var out = {};
+    for (const key of player_list) {
+        out[key] = players[key] - players_copy[key];
+    }
+    return out;
+}
