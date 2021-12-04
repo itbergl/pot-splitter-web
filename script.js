@@ -31,11 +31,10 @@ function submitPlayers() {
     myobj.remove();
 
     var codeBlock =
-        '<div><button type="button" onclick="submitPot()">Add Info</button></div>' +
-        '<label for="fpot">Pot Size</label>' +
-        '<input type="number" id="fpot" name="fpot"><br><br>' +
-        '<label for="fboard">Boards</label>' +
-        '<input type="number" id="fboard" name="fboard"><br><br>';
+        '<button type="button" onclick="submitPot()">Add Info</button>' +
+        '<div class="player-input">' +
+        'Pot Size: <input type="number" id="fpot" name="fpot"><br><br>' +
+        'Boards: <input type="number" id="fboard" name="fboard"></div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'pot-screen');
@@ -95,19 +94,25 @@ function submitWinners() {
     var results = calculateAllIn();
 
 
-    var codeBlock = '<table><tr><td></td>'
+    var codeBlock = '<table style="font-weight: bold"><tr><td></td>'
 
     player_list.forEach(p => {
         codeBlock += '<td>' + p + '</td>'
     })
-    codeBlock += '</tr><tr><td>Net Gain</td>';
+    codeBlock += '</tr><tr><td >Net Gain</td>';
 
     player_list.forEach(p => {
         codeBlock += '<td>';
-        if (results[p] > 0) codeBlock += '+';
-        codeBlock += results[p] + '</td>'
+        if (results[0][p] > 0) {
+            codeBlock += '<p style="color: green"> +';
+        } else {
+            codeBlock += '<p style="color: red">';
+        }
+        codeBlock += results[0][p] + '</p></td>'
     })
     codeBlock += '</tr></table>';
+
+    codeBlock += '<div style="color:white">' + results[1] + '</div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'output-screen');
@@ -117,7 +122,7 @@ function submitWinners() {
 
 function calculateAllIn() {
     var players_copy = {...players };
-
+    var summary = '<h2>Breakdown</h2>';
     var first = true;
 
     for (var i = 0; i < Object.keys(players).length; i++) {
@@ -138,11 +143,27 @@ function calculateAllIn() {
             first = false;
         }
     }
+    var sidepot_count = 1;
 
     for (const [key, value] of Object.entries(sidepot)) {
+
         var pot_participants = key.split(',');
         var pot_value = value;
+        var board_count = 1;
+        var summary_temp = ''
+        summary_temp += `<h3> Side-pot ${sidepot_count}:   ` + key.replaceAll(',', ', ');
+
+        if (first) {
+            summary_temp += `  (${value + pot})`
+        } else {
+            summary_temp += `  (${value})`
+        }
+
+        sidepot_count++;
+
         boards.forEach(b => {
+            summary_temp += `<h4>Board ${board_count}</h4>`;
+            board_count++;
             var max_rank = Math.min(...pot_participants.map(x => b[x]));
             var count = pot_participants.filter(p => b[p] == max_rank).length;
 
@@ -151,13 +172,17 @@ function calculateAllIn() {
             pot_participants.forEach(p => {
                 if (b[p] == max_rank) {
                     players[p] += split;
+                    summary_temp += `<p>${p} wins ${split}</p>`;
                 }
             })
+
         })
+
+        if (pot_participants.length != 1) summary += summary_temp;
     }
     var out = {};
     for (const key of player_list) {
         out[key] = players[key] - players_copy[key];
     }
-    return out;
+    return [out, summary];
 }

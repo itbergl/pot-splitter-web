@@ -1,6 +1,15 @@
+body {
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .player-input {
-    width: 15%;
-    padding: 20px;
+    margin: 20px;
+    margin-left: 0px;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-bottom: 15px;
     background-color: blanchedalmond;
 }
 
@@ -8,15 +17,20 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    font-weight: bold;
 }
 
 td,
 th {
-    border: 1px solid #dddddd;
+    border: 1px solid blanchedalmond;
     text-align: left;
     padding: 8px;
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: blanchedalmond;
+}
+
+tr:nth-child(odd) {
+    background-color: rgb(177, 160, 136);
 }
