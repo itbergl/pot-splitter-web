@@ -4,3 +4,5 @@ add equity
 add wildcards
 add expected value
 add interactive card selector
+add hand validation
+better console logging

@@ -36,7 +36,9 @@ function detStraight(dic) {
     var dynStrt = {...strt };
 
     if (Object.keys(dic).length < 5) return false;
-    if ('2' in Object.keys(dic)) dynStrt['A'] = 1;
+
+    if (!('2' in Object.keys(dic))) dynStrt['A'] = 1; //This line is funky?
+
     const maxBy = (comparator, array) =>
         array.reduce((acc, val) => comparator(acc, val) > 0 ? acc : val);
     const minBy = (comparator, array) =>
@@ -45,6 +47,8 @@ function detStraight(dic) {
 
     const max = dynStrt[maxBy(orderComp, Object.keys(dic))];
     const min = dynStrt[minBy(orderComp, Object.keys(dic))];
+    // console.log(`found max=${max} min=${min}`);
+
     return (max - min == 4);
 }
 
@@ -74,8 +78,7 @@ function compareHands(A, B) {
     if (strengthA == strengthB) {
         const dicA = countPairs(A);
         const dicB = countPairs(B);
-        var dynStrt = {...strt
-        };
+        var dynStrt = {...strt };
         if (strengthA == 10 || strengthA == 21) {
             if ('2' in Object.keys(dicA)) dynStrt['A'] = 1;
         }
@@ -109,15 +112,18 @@ function bestHand(hand, board) {
         return split.filter(a => !x.includes(a)).join('');
     })
 
+
+    console.log(result);
     return result.reduce((prev, curr) => {
         return compareHands(prev, curr) > 0 ? prev : curr;
     });
 
 }
 
-// console.log(bestHand('2h6d', 'As3h4h5hTd'));
-
-// var mn = main();
-// if (mn > 0) console.log('A wins');
-// else if (mn < 0) console.log('B wins');
-// else console.log('Split Pot')
+function handFormat(hand) {
+    var ret = "";
+    for (var i = 0; i < hand.length; i++) {
+        ret += i % 2 == 0 ? hand.charAt(i).toUpperCase() : hand.charAt(i).toLowerCase();
+    }
+    return ret;
+}

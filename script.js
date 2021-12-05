@@ -33,11 +33,11 @@ function submitPlayers() {
         numPlayers++;
         player_list.push(name);
         players[name] = parseInt(chips);
-        hands[name] = hand;
+        hands[name] = handFormat(hand);
     });;
 
-    console.log(players);
-    console.log(hands);
+    // console.log('Players: ' + players);
+    // console.log(hands);
 
     var myobj = document.getElementById("player-screen");
     myobj.remove();
@@ -65,7 +65,7 @@ function submitPot() {
     pot = parseInt(document.getElementById('fpot').value);
 
     document.querySelectorAll('#fboard').forEach(input => {
-        boards.push(input.value);
+        boards.push(handFormat(input.value));
     });
     // console.log(boards);
     var myobj = document.getElementById("pot-screen");
