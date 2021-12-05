@@ -37,7 +37,7 @@ function detStraight(dic) {
 
     if (Object.keys(dic).length < 5) return false;
 
-    if (!('2' in Object.keys(dic))) dynStrt['A'] = 1; //This line is funky?
+    if (dic.hasOwnProperty('2')) dynStrt['A'] = 1;
 
     const maxBy = (comparator, array) =>
         array.reduce((acc, val) => comparator(acc, val) > 0 ? acc : val);
@@ -80,7 +80,7 @@ function compareHands(A, B) {
         const dicB = countPairs(B);
         var dynStrt = {...strt };
         if (strengthA == 10 || strengthA == 21) {
-            if ('2' in Object.keys(dicA)) dynStrt['A'] = 1;
+            if (dicA.hasOwnProperty('2')) dynStrt['A'] = 1;
         }
         var compareFn = (el1, el2) => {
             return dynStrt[el2] - dynStrt[el1];
@@ -127,3 +127,5 @@ function handFormat(hand) {
     }
     return ret;
 }
+var A = '2c5h5d5c5c';
+console.log(names[handStrength(A)])

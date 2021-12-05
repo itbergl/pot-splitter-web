@@ -7,6 +7,7 @@ var sidepot = {};
 var winners = [];
 var hands = {};
 var boards = [];
+var manualInput = false;
 
 function addPlayer() {
     var div = document.createElement('div');
@@ -45,12 +46,17 @@ function submitPlayers() {
 
 
     var codeBlock =
-        '<button type="button" onclick="submitPot()">Next</button>' +
-        '<button type="button" onclick="addBoard()" style="margin-left:20px">+</button>' +
+        '<button type="button" onclick="submitPot()">Next</button>';
+
+    if (!manualInput) codeBlock += '<button type="button" onclick="addBoard()" style="margin-left:20px">+</button>';
+
+    codeBlock +=
         '<div class="player-input">' +
         'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>' +
-        '</div><div class="player-input">' +
-        `Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
+        '</div><div class="player-input">';
+
+    if (manualInput) codeBlock += 'Number of Boards: <input type="number" id="fnumboard" value=""></div>';
+    else codeBlock += `Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'pot-screen');
@@ -60,7 +66,7 @@ function submitPlayers() {
 
 function submitPot() {
 
-    // numBoards = parseInt(document.getElementById('fboard').value);
+    if (manualInput) numBoards = parseInt(document.getElementById('fnumboard').value);
 
     pot = parseInt(document.getElementById('fpot').value);
 
@@ -72,7 +78,7 @@ function submitPot() {
     myobj.remove();
     var codeBlock = '';
 
-    if (true) {
+    if (!manualInput) {
         var div = document.createElement('div');
         div.setAttribute('id', 'boards-screen');
         document.getElementById("display").appendChild(div);
@@ -98,18 +104,21 @@ function submitPot() {
         }
 
         codeBlock += '</table>'
-
     }
 
     var div = document.createElement('div');
     div.setAttribute('id', 'boards-screen');
     div.innerHTML = codeBlock;
     document.getElementById("display").appendChild(div);
+}
 
+function toggleWinnerInput() {
+    manualInput = true;
+    submitPlayers();
 }
 
 function submitWinners() {
-    if (true) {
+    if (!manualInput) {
         boards.forEach(b => {
             var toAdd = {};
             var bestHands = {};
@@ -244,7 +253,7 @@ function calculateAllIn() {
 
         sidepot_count++;
 
-        winners.forEach(b => {
+        winners.forEach((b, index) => {
             summary_temp += `<h3>Board ${board_count}</h3><ul>`;
             board_count++;
             var max_rank = Math.min(...pot_participants.map(x => b[x]));
@@ -256,12 +265,16 @@ function calculateAllIn() {
             pot_participants.forEach(p => {
                 if (b[p] == max_rank) {
                     players[p] += split;
-                    summary_temp += `<li>${p} wins ${Math.round(split)}</li>`;
+                    summary_temp += `<li>${p} wins ${Math.round(split)}`;
+                    if (!manualInput) {
+                        var bh = bestHand(boards[index], hands[p]);
+                        summary_temp += ` with ${names[handStrength(bh)]}`;
+                        summary_temp += ' (' + bh + ')';
+                    }
+                    summary_temp += '</li>';
                 }
-            })
-
+            });
             summary_temp += '</ul>'
-
         })
 
         if (pot_participants.length != 1) summary += summary_temp;
