@@ -1,8 +1,9 @@
 body {
     height: 100vh;
     background-image: url("background.jpg");
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     background-size: cover;
+    background-color: rgb(15, 95, 35);
 }
 
 .player-input {

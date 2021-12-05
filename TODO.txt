@@ -1,0 +1,6 @@
+stop double counting when comparing hands
+add option to manual enter winners
+add equity
+add wildcards
+add expected value
+add interactive card selector

@@ -1,9 +1,11 @@
 var numPlayers = 0;
-var numBoards = 0;
+var numBoards = 1;
 var players = {};
 var player_list = [];
 var pot = 0;
 var sidepot = {};
+var winners = [];
+var hands = {};
 var boards = [];
 
 function addPlayer() {
@@ -13,28 +15,42 @@ function addPlayer() {
     document.getElementById("players").appendChild(div);
 }
 
+function addBoard() {
+    numBoards++; //FIX - ensure empty boards are not counted by the end
+    var div = document.createElement('div');
+    div.setAttribute('class', 'player-input');
+    div.innerHTML = `Board ${numBoards} ` + '<input type="text" id="fboard" name="fboard">';
+    document.getElementById("pot-screen").appendChild(div);
+}
+
 function submitPlayers() {
     var inputs = document.querySelector('#players').querySelectorAll(".player-input");
     Array.prototype.forEach.call(inputs, element => {
         var name = element.querySelector("#fname").value;
         var chips = element.querySelector("#fchips").value;
+        var hand = element.querySelector("#fhand").value;
         if (name == "" || chips == "") return;
         numPlayers++;
-        players[name] = parseInt(chips);
         player_list.push(name);
-
+        players[name] = parseInt(chips);
+        hands[name] = hand;
     });;
 
     console.log(players);
+    console.log(hands);
 
     var myobj = document.getElementById("player-screen");
     myobj.remove();
 
+
+
     var codeBlock =
         '<button type="button" onclick="submitPot()">Next</button>' +
+        '<button type="button" onclick="addBoard()" style="margin-left:20px">+</button>' +
         '<div class="player-input">' +
-        'Pot Size: <input type="number" id="fpot" name="fpot"><br><br>' +
-        'Boards: <input type="number" id="fboard" name="fboard"></div>';
+        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>' +
+        '</div><div class="player-input">' +
+        `Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'pot-screen');
@@ -44,31 +60,46 @@ function submitPlayers() {
 
 function submitPot() {
 
-    numBoards = parseInt(document.getElementById('fboard').value);
+    // numBoards = parseInt(document.getElementById('fboard').value);
 
     pot = parseInt(document.getElementById('fpot').value);
 
+    document.querySelectorAll('#fboard').forEach(input => {
+        boards.push(input.value);
+    });
+    // console.log(boards);
     var myobj = document.getElementById("pot-screen");
     myobj.remove();
-    var codeBlock = '<div><button type="button" onclick="submitWinners()">Calculate Winners</button></div><table><tr><td></td>';
+    var codeBlock = '';
 
-    for (let p in players) {
-        codeBlock += '<td>' + p + '</td>'
-    }
+    if (true) {
+        var div = document.createElement('div');
+        div.setAttribute('id', 'boards-screen');
+        document.getElementById("display").appendChild(div);
+        submitWinners();
+    } else {
+        codeBlock += '<div><button type="button" onclick="submitWinners()">Calculate Winners</button></div><table><tr><td></td>';
 
-    codeBlock += '</tr>';
-
-    for (var i = 0; i < numBoards; i++) {
-        codeBlock += "<tr><td> Board " + (i + 1) + '</td>';
-
-        for (var j = 0; j < numPlayers; j++) {
-            codeBlock += '<td><input type="number" class="fpos"></td>'
+        for (let p in players) {
+            codeBlock += '<td>' + p + '</td>'
         }
 
-        codeBlock += "</tr>"
-    }
+        codeBlock += '</tr>';
+        var pos = [1, 2, 3, 2, 1, 1, 2, 1, 3];
+        for (var i = 0; i < numBoards; i++) {
+            codeBlock += "<tr><td> Board " + (i + 1) + '</td>';
 
-    codeBlock += '</table>'
+            for (var j = 0; j < numPlayers; j++) {
+                // codeBlock += `<td><input type="number" class="fpos" value="${pos[i*numBoards+j]}"></td>`
+                codeBlock += `<td><input type="number" class="fpos" value=""></td>`
+            }
+
+            codeBlock += "</tr>"
+        }
+
+        codeBlock += '</table>'
+
+    }
 
     var div = document.createElement('div');
     div.setAttribute('id', 'boards-screen');
@@ -78,16 +109,40 @@ function submitPot() {
 }
 
 function submitWinners() {
-    for (var i = 0; i < numBoards; i++) boards.push({});
+    if (true) {
+        boards.forEach(b => {
+            var toAdd = {};
+            var bestHands = {};
+            player_list.forEach(p => {
+                bestHands[p] = bestHand(hands[p], b);
+                console.log(`${p} has ${bestHands[p]} - ${names[handStrength(bestHands[p])]}`);
+                toAdd[p] = numPlayers;
+            });
+            // TODO halve search space by not double counting
+            for (const [a, a_hand] of Object.entries(bestHands)) {
+                for (const [b, b_hand] of Object.entries(bestHands)) {
+                    const comp = compareHands(a_hand, b_hand);
+                    if (comp > 0) toAdd[a] -= 1;
+                };
+            };
+            winners.push(toAdd);
+        });
 
-    var inputs = document.getElementsByClassName("fpos");
+        console.log(winners);
 
-    for (var i = 0; i < inputs.length; i++) {
-        var p = player_list[i % numPlayers];
-        var input = inputs[i].value;
-        if (input == '') input = numPlayers + 1;
-        boards[Math.floor(i / numPlayers)][p] = inputs[i].value;
+    } else {
+        for (var i = 0; i < numBoards; i++) winners.push({});
+        var inputs = document.getElementsByClassName("fpos");
+
+        for (var i = 0; i < inputs.length; i++) {
+            var p = player_list[i % numPlayers];
+            var input = inputs[i].value;
+            if (input == '') input = numPlayers + 1;
+            winners[Math.floor(i / numPlayers)][p] = inputs[i].value;
+        }
+
     }
+
     var myobj = document.getElementById("boards-screen");
     myobj.remove();
 
@@ -122,7 +177,7 @@ function submitWinners() {
 
 function calculateAllIn() {
     var players_copy = {...players };
-    var summary = '<h2>Breakdown</h2>';
+    var summary = '<h1>Breakdown</h1>';
     var first = true;
 
     for (var i = 0; i < Object.keys(players).length; i++) {
@@ -151,30 +206,33 @@ function calculateAllIn() {
         var pot_value = value;
         var board_count = 1;
         var summary_temp = ''
-        summary_temp += `<h3> Side-pot ${sidepot_count}:   ` + key.replaceAll(',', ', ');
+        summary_temp += `<h2> Side-pot ${sidepot_count}<br>&emsp;` + key.replaceAll(',', ', ');
 
         if (first) {
-            summary_temp += `  (${value + pot})`
+            summary_temp += `  (${value + pot})</h2>`
         } else {
-            summary_temp += `  (${value})`
+            summary_temp += `  (${value})</h2>`
         }
 
         sidepot_count++;
 
-        boards.forEach(b => {
-            summary_temp += `<h4>Board ${board_count}</h4>`;
+        winners.forEach(b => {
+            summary_temp += `<h3>Board ${board_count}</h3><ul>`;
             board_count++;
             var max_rank = Math.min(...pot_participants.map(x => b[x]));
+            console.log(b);
             var count = pot_participants.filter(p => b[p] == max_rank).length;
 
-            var split = pot_value / (boards.length * count);
+            var split = pot_value / (winners.length * count);
 
             pot_participants.forEach(p => {
                 if (b[p] == max_rank) {
                     players[p] += split;
-                    summary_temp += `<p>${p} wins ${Math.round(split)}</p>`;
+                    summary_temp += `<li>${p} wins ${Math.round(split)}</li>`;
                 }
             })
+
+            summary_temp += '</ul>'
 
         })
 
