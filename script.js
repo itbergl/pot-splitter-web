@@ -118,6 +118,34 @@ function submitWinners() {
                 console.log(`${p} has ${bestHands[p]} - ${names[handStrength(bestHands[p])]}`);
                 toAdd[p] = numPlayers;
             });
+
+            /**
+             * Proof that this works:
+             *  
+             *  RTP: 
+             *      1. A beats B if and only if A beats more players than B
+             *      2. A ties with B if and only if A beats the same amount 
+             *         of players as B
+             *      
+             *      (transitivity - if A beats B and B beats C then A beats C)
+             * 
+             *  1.  If A beats B then due to transitivity A beats more 
+             *      players than B - A beats all players that B beats plus B.
+             * 
+             *      If A has beats more players than B then for B to beat A, they
+             *      must beat everyone A beats plus A, but this is a contradiction
+             *      so A beats B.
+             * 
+             *  2.  If A and B are tied, then due to transitivity if A beat anyone 
+             *      who is beating B then they wouldn't be tied as A would then be 
+             *      beating B, so A can only be beating players being beaten by B. 
+             *      Similarly for B. Hence there's a bijection between the number 
+             *      of players they beat so it must be the same number.
+             * 
+             *      If A and B have beat the same number of players then if A beat 
+             *      B then A would be beating more players than B - at least everyone 
+             *      that B beats plus B. Hence they must be tied.
+             */
             // TODO halve search space by not double counting
             for (const [a, a_hand] of Object.entries(bestHands)) {
                 for (const [b, b_hand] of Object.entries(bestHands)) {
