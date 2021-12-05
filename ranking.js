@@ -109,11 +109,9 @@ function bestHand(hand, board) {
     );
 
     result = result.map(x => {
-        return split.filter(a => !x.includes(a)).join('');
-    })
-
-
-    console.log(result);
+            return split.filter(a => !x.includes(a)).join('');
+        })
+        // console.log(result);
     return result.reduce((prev, curr) => {
         return compareHands(prev, curr) > 0 ? prev : curr;
     });
@@ -127,5 +125,3 @@ function handFormat(hand) {
     }
     return ret;
 }
-var A = '2c5h5d5c5c';
-console.log(names[handStrength(A)])
