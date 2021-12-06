@@ -1,3 +1,4 @@
+// variables
 var numPlayers = 0;
 var numBoards = 1;
 var players = {};
@@ -9,6 +10,7 @@ var hands = {};
 var boards = [];
 var manualInput = false;
 
+// callback to add player input entry
 function addPlayer() {
     var div = document.createElement('div');
     div.setAttribute('class', 'player-input');
@@ -16,6 +18,7 @@ function addPlayer() {
     document.getElementById("players").appendChild(div);
 }
 
+// callback to add board input entry
 function addBoard() {
     numBoards++; //FIX - ensure empty boards are not counted by the end
     var div = document.createElement('div');
@@ -24,6 +27,7 @@ function addBoard() {
     document.getElementById("pot-screen").appendChild(div);
 }
 
+// callback to submit player form, deletes the form div and loads the next page
 function submitPlayers() {
     var inputs = document.querySelector('#players').querySelectorAll(".player-input");
     Array.prototype.forEach.call(inputs, element => {
@@ -64,6 +68,7 @@ function submitPlayers() {
     document.getElementById("display").appendChild(div);
 }
 
+// callback to submit pot form, deletes the form div and loads the next page
 function submitPot() {
 
     if (manualInput) numBoards = parseInt(document.getElementById('fnumboard').value);
@@ -112,11 +117,13 @@ function submitPot() {
     document.getElementById("display").appendChild(div);
 }
 
+// sets mode for board winner input
 function toggleWinnerInput() {
     manualInput = true;
     submitPlayers();
 }
 
+// callback to submit winners form deletes the form div and loads the next page
 function submitWinners() {
     if (!manualInput) {
         boards.forEach(b => {
@@ -185,7 +192,7 @@ function submitWinners() {
 
     var results = calculateAllIn();
 
-
+    // create output table
     var codeBlock = '<table style="font-weight: bold"><tr><td></td>'
 
     player_list.forEach(p => {
@@ -212,6 +219,8 @@ function submitWinners() {
     document.getElementById("display").appendChild(div);
 }
 
+// callback function that calculates winnings and updates the player 
+// money, and the breakdown of each pot.
 function calculateAllIn() {
     var players_copy = {...players };
     var summary = '<h1>Breakdown</h1>';

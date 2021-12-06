@@ -1,6 +1,9 @@
+// factorials 
 const fact = [1, 1, 2, 6, 24];
+// assigns value to each hand rank
 const strt = { '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14 };
 
+// derived values of all hands
 const names = {
     0: 'High Card',
     3: 'One Pair',
@@ -13,6 +16,7 @@ const names = {
     21: 'Straight Flush'
 }
 
+// returns a dictionary with the number of each value
 function countPairs(hand) {
     var out = {};
 
@@ -24,6 +28,7 @@ function countPairs(hand) {
     return out;
 }
 
+// true if hand is a flush
 function detFlush(hand) {
     var fl = hand[1];
     for (var i = 0; i < 5; i++) {
@@ -32,6 +37,7 @@ function detFlush(hand) {
     return true;
 }
 
+// true if hand is a straight
 function detStraight(dic) {
     var dynStrt = {...strt };
 
@@ -52,6 +58,7 @@ function detStraight(dic) {
     return (max - min == 4);
 }
 
+// returns the derived strength of each hand
 function handStrength(A) {
     var dic = countPairs(A);
     var out = 0;
@@ -66,10 +73,9 @@ function handStrength(A) {
     return out;
 }
 
-// var A = 'AsAc4h4s5h';
-// var B = '2c3c5cQc9c';
-
-
+// comparitor function for hands - only called
+// for hands that have the same rank. 
+// returns +1 if A > B, 0 if A==B, -1 if A < B
 function compareHands(A, B) {
     const strengthA = handStrength(A);
     const strengthB = handStrength(B);
@@ -100,6 +106,7 @@ function compareHands(A, B) {
     return -1;
 }
 
+// finds the best possible hand given hole cards and a board
 function bestHand(hand, board) {
     var wholeHand = hand + board;
     var split = wholeHand.match(/.{1,2}/g);
@@ -118,6 +125,7 @@ function bestHand(hand, board) {
 
 }
 
+// returns a formatted string of a hand
 function handFormat(hand) {
     var ret = "";
     for (var i = 0; i < hand.length; i++) {
