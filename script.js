@@ -1,14 +1,20 @@
-// variables
-var numPlayers = 0;
+// form variables
+var players = {}; // maps players to chip amount
 var numBoards = 1;
-var players = {};
-var player_list = [];
 var pot = 0;
-var sidepot = {};
-var winners = [];
-var hands = {};
-var boards = [];
+var hands = {}; // maps players to a hand
+var boards = []; // list of boards
 var manualInput = false;
+
+// derived from form variables
+var numPlayers = 0;
+var player_list = [];
+
+
+// calculation varialbes
+var sidepot = {}; // maps list of players string to sidepot chip count
+var winners = []; // list of dictionaries that each map players to winners of the sidepot
+
 
 // callback to add player input entry
 function addPlayer() {
