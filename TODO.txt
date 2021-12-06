@@ -8,3 +8,4 @@ add hand validation
 better console logging
 add ordering to string formatting
 add string symbols for formatting
+fix rounding for smaller stacks
