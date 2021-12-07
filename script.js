@@ -56,14 +56,15 @@ function submitPlayers() {
 
 
     var codeBlock =
-        '<button type="button" onclick="submitPot()">Next</button>';
+        '<div>' + 
+        '<button class="button" type="button" onclick="submitPot()">Next</button>';
 
-    if (!manualInput) codeBlock += '<button type="button" onclick="addBoard()" style="margin-left:20px">+</button>';
+    if (!manualInput) codeBlock += '<button class="button" type="button" onclick="addBoard()" style="margin-left:20px">+</button>';
 
     codeBlock +=
+        '</div>' +
         '<div class="player-input">' +
-        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>' +
-        '</div><div class="player-input">';
+        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>';
 
     if (manualInput) codeBlock += 'Number of Boards: <input type="number" id="fnumboard" value=""></div>';
     else codeBlock += `Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
