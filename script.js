@@ -56,7 +56,7 @@ function submitPlayers() {
 
 
     var codeBlock =
-        '<div>' + 
+        '<div>' +
         '<button class="button" type="button" onclick="submitPot()">Next</button>';
 
     if (!manualInput) codeBlock += '<button class="button" type="button" onclick="addBoard()" style="margin-left:20px">+</button>';
@@ -83,7 +83,7 @@ function submitPot() {
     pot = parseInt(document.getElementById('fpot').value);
 
     document.querySelectorAll('#fboard').forEach(input => {
-        boards.push(handFormat(input.value));
+        if (input.value) boards.push(handFormat(input.value));
     });
     // console.log(boards);
     var myobj = document.getElementById("pot-screen");
