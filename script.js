@@ -64,10 +64,10 @@ function submitPlayers() {
     codeBlock +=
         '</div>' +
         '<div class="player-input">' +
-        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>';
+        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br></div>';
 
     if (manualInput) codeBlock += 'Number of Boards: <input type="number" id="fnumboard" value=""></div>';
-    else codeBlock += `Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
+    else codeBlock += `<div class="player-input">Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'pot-screen');
@@ -231,6 +231,7 @@ function submitWinners() {
 function calculateAllIn() {
     var players_copy = {...players };
     var summary = '<h1>Breakdown</h1>';
+    summary += '<p>(note: values are rounded)</p>';
     var first = true;
 
     for (var i = 0; i < Object.keys(players).length; i++) {
@@ -268,8 +269,9 @@ function calculateAllIn() {
         }
 
         sidepot_count++;
-        winners.forEach((b, index) => {
-                summary_temp += `<h3>Board ${board_count}</h3><ul>`;
+        var distributed =
+            winners.forEach((b, index) => {
+                summary_temp += `<h3>Board ${board_count}</h3>`;
                 board_count++;
                 var max_rank = Math.min(...pot_participants.map(x => b[x]));
                 console.log(b);
@@ -280,16 +282,16 @@ function calculateAllIn() {
                 pot_participants.forEach(p => {
                     if (b[p] == max_rank) {
                         players[p] += split;
-                        summary_temp += `<li>${p} wins ${Math.round(split)}`;
+                        summary_temp += `<p>${p} wins ${Math.round(split)}`;
                         if (!manualInput) {
                             var bh = bestHand(boards[index], hands[p]);
                             summary_temp += ` with ${names[handStrength(bh)]}`;
                             summary_temp += ' (' + printable(bh) + ')';
                         }
-                        summary_temp += '</li>';
+                        summary_temp += '</p>';
                     }
                 });
-                summary_temp += '</ul>'
+                // summary_temp += '</ul>'
             })
             // const remainder = pot_value - 
         if (pot_participants.length != 1) summary += summary_temp;
