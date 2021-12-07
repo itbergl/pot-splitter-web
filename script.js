@@ -15,6 +15,16 @@ var player_list = [];
 var sidepot = {}; // maps list of players string to sidepot chip count
 var winners = []; // list of dictionaries that each map players to winners of the sidepot
 
+// BACK BUTTON AS REQUESTED
+var back = [];
+
+
+
+function goBack() {
+    if (back.length == 0) return;
+    document.getElementById("display").innerHTML = "";
+    document.getElementById("display").appendChild(back.pop());
+}
 
 // callback to add player input entry
 function addPlayer() {
@@ -51,6 +61,7 @@ function submitPlayers() {
     // console.log(hands);
 
     var myobj = document.getElementById("player-screen");
+    back.push(myobj);
     myobj.remove();
 
 
