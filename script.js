@@ -267,31 +267,30 @@ function calculateAllIn() {
         }
 
         sidepot_count++;
-
         winners.forEach((b, index) => {
-            summary_temp += `<h3>Board ${board_count}</h3><ul>`;
-            board_count++;
-            var max_rank = Math.min(...pot_participants.map(x => b[x]));
-            console.log(b);
-            var count = pot_participants.filter(p => b[p] == max_rank).length;
+                summary_temp += `<h3>Board ${board_count}</h3><ul>`;
+                board_count++;
+                var max_rank = Math.min(...pot_participants.map(x => b[x]));
+                console.log(b);
+                var numWinners = pot_participants.filter(p => b[p] == max_rank).length;
 
-            var split = pot_value / (winners.length * count);
+                var split = pot_value / (winners.length * numWinners);
 
-            pot_participants.forEach(p => {
-                if (b[p] == max_rank) {
-                    players[p] += split;
-                    summary_temp += `<li>${p} wins ${Math.round(split)}`;
-                    if (!manualInput) {
-                        var bh = bestHand(boards[index], hands[p]);
-                        summary_temp += ` with ${names[handStrength(bh)]}`;
-                        summary_temp += ' (' + bh + ')';
+                pot_participants.forEach(p => {
+                    if (b[p] == max_rank) {
+                        players[p] += split;
+                        summary_temp += `<li>${p} wins ${Math.round(split)}`;
+                        if (!manualInput) {
+                            var bh = bestHand(boards[index], hands[p]);
+                            summary_temp += ` with ${names[handStrength(bh)]}`;
+                            summary_temp += ' (' + printable(bh) + ')';
+                        }
+                        summary_temp += '</li>';
                     }
-                    summary_temp += '</li>';
-                }
-            });
-            summary_temp += '</ul>'
-        })
-
+                });
+                summary_temp += '</ul>'
+            })
+            // const remainder = pot_value - 
         if (pot_participants.length != 1) summary += summary_temp;
     }
     var out = {};
