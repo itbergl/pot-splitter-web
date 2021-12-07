@@ -24,6 +24,7 @@ function goBack() {
     if (back.length == 0) return;
     document.getElementById("display").innerHTML = "";
     document.getElementById("display").appendChild(back.pop());
+
 }
 
 // callback to add player input entry
@@ -92,12 +93,14 @@ function submitPot() {
     if (manualInput) numBoards = parseInt(document.getElementById('fnumboard').value);
 
     pot = parseInt(document.getElementById('fpot').value);
-
+    
+    boards = [];
     document.querySelectorAll('#fboard').forEach(input => {
         if (input.value) boards.push(handFormat(input.value));
     });
     // console.log(boards);
     var myobj = document.getElementById("pot-screen");
+    back.push(myobj);
     myobj.remove();
     var codeBlock = '';
 
