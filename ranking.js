@@ -106,16 +106,16 @@ function compareHands(A, B) {
             if (dicB.hasOwnProperty('2')) dynStrtB['A'] = 1;
         }
         var compareA = (el1, el2) => {
-            return dynStrtA[el2] - dynStrtA[el1];
+            return dicA[el2] - dicA[el1];
         }
         var compareB = (el1, el2) => {
-            return dynStrtB[el2] - dynStrtB[el1];
+            return dicB[el2] - dicB[el1];
         }
 
         var valsA = Object.keys(dicA).sort(compareA);
         var valsB = Object.keys(dicB).sort(compareB);
-        console.log(valsA)
-        console.log(valsB)
+        // console.log(valsA)
+        // console.log(valsB)
         for (var i = 0; i < valsA.length; i++) {
             if (valsA[i] != valsB[i]) {
                 return (strt[valsA[i]] > strt[valsB[i]]) ? 1 : -1;
@@ -148,6 +148,7 @@ function bestHand(hand, board) {
 // console.log(a);
 // returns a formatted string of a hand
 function handFormat(hand) {
+    if (hand.length == 0) return undefined;
     var ret = hand.match(/.{1,2}/g);
     // validate input and ensure capitalisation
     for (var i = 0; i < ret.length; i++) {
@@ -180,7 +181,7 @@ function sortHand(ret) {
 
 function printable(hand) {
     var ret = '';
-    console.log(hand)
+    // console.log(hand)
     for (var i = 0; i < hand.length; i++) {
         ret += hand[i][0] + suits[hand[i][1]];
         ret += ' ';
@@ -188,6 +189,16 @@ function printable(hand) {
     return ret;
 }
 // console.log(strt.hasOwnProperty())
-var handA = handFormat('Ad2c3d4s5d');
-var handB = handFormat('6d2c3d4s5d');
-console.log(compareHands(handA, handB))
+// var handA = handFormat('asacahadkd');
+// var handB = handFormat('ahkskckdkh');
+// console.log(compareHands(handA, handB))
+
+// var A = [];
+
+// var B = [];
+
+// A = B;
+
+// B.push('hi');
+
+// console.log(A);
