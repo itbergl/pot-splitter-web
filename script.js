@@ -209,6 +209,7 @@ function submitWinners() {
     }
 
     var myobj = document.getElementById("boards-screen");
+    back.push(myobj);
     myobj.remove();
 
     var results = calculateAllIn();
