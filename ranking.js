@@ -200,14 +200,14 @@ var bestHands = {
 };
 
 
-var toAdd = { "Isaac": 3, "Jake": 3, "Jake's Mum": 3 };
-// get all combinations of hands against each other
-var res = Object.keys(bestHands).flatMap(
-    (v, i) => Object.keys(bestHands).slice(i + 1).forEach(w => {
-        const i = compareHands(bestHands[v], bestHands[w]);
-        if (i >= 0) toAdd[v] -= 1;
-        if (i <= 0) toAdd[w] -= 1;
-    })
-);
+// var toAdd = { "Isaac": 3, "Jake": 3, "Jake's Mum": 3 };
+// // get all combinations of hands against each other
+// var res = Object.keys(bestHands).flatMap(
+//     (v, i) => Object.keys(bestHands).slice(i + 1).forEach(w => {
+//         const i = compareHands(bestHands[v], bestHands[w]);
+//         if (i >= 0) toAdd[v] -= 1;
+//         if (i <= 0) toAdd[w] -= 1;
+//     })
+// );
 
-console.log(toAdd);
+// console.log(toAdd);
