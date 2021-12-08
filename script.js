@@ -78,10 +78,10 @@ function submitPlayers() {
     codeBlock +=
         '</div>' +
         '<div class="player-input">' +
-        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br></div>';
+        'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>';
 
     if (manualInput) codeBlock += 'Number of Boards: <input type="number" id="fnumboard" value=""></div>';
-    else codeBlock += `<div class="player-input">Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
+    else codeBlock += `</div><div class="player-input">Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'pot-screen');
@@ -112,7 +112,7 @@ function submitPot() {
         var myobj = document.getElementById("pot-screen");
         back.push(myobj);
         myobj.remove();
-        codeBlock += '<div><button type="button" onclick="submitWinners()">Calculate Winners</button></div><table><tr><td></td>';
+        codeBlock += '<div><button type="button" onclick="submitWinners()">Results</button></div><table><tr><td></td>';
 
         for (let p in players) {
             codeBlock += '<td>' + p + '</td>'
