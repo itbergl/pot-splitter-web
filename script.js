@@ -18,8 +18,6 @@ var winners = []; // list of dictionaries that each map players to winners of th
 // BACK BUTTON AS REQUESTED
 var back = [];
 
-
-
 function goBack() {
     if (back.length == 0) return;
     document.getElementById("display").innerHTML = "";
@@ -45,7 +43,8 @@ function addBoard() {
 }
 
 // callback to submit player form, deletes the form div and loads the next page
-function submitPlayers() {
+function submitPlayers(manualInput_param = false) {
+    manualInput = manualInput_param;
     players = {};
     hands = {};
     var inputs = document.querySelector('#players').querySelectorAll(".player-input");
@@ -137,14 +136,11 @@ function submitPot() {
         div.innerHTML = codeBlock;
         document.getElementById("display").appendChild(div);
     }
-
-
 }
 
 // sets mode for board winner input
 function toggleWinnerInput() {
-    manualInput = true;
-    submitPlayers();
+    submitPlayers(true);
 }
 
 // callback to submit winners form deletes the form div and loads the next page
@@ -161,10 +157,10 @@ function submitWinners() {
                 toAdd[p] = numPlayers;
             });
 
-            console.log('Best Hands ')
-            console.log(bestHands)
-            console.log('toAdd ')
-            console.log(toAdd)
+            // console.log('Best Hands ')
+            // console.log(bestHands)
+            // console.log('toAdd ')
+            // console.log(toAdd)
 
             /**
              * Proof that this works:
@@ -193,15 +189,13 @@ function submitWinners() {
              *      B then A would be beating more players than B - at least everyone 
              *      that B beats plus B. Hence they must be tied.
              */
-            // TODO halve search space by not double counting
-            for (const [a, a_hand] of Object.entries(bestHands)) {
-                for (const [b, b_hand] of Object.entries(bestHands)) {
-                    console.log(a_hand)
-                    console.log(b_hand)
-                    console.log(compareHands(a_hand, b_hand))
-                    if (compareHands(a_hand, b_hand) > 0) toAdd[a] -= 1;
-                };
-            };
+            player_list.flatMap(
+                (v, i) => player_list.slice(i + 1).forEach(w => {
+                    const i = compareHands(bestHands[v], bestHands[w]);
+                    if (i >= 0) toAdd[v] -= 1;
+                    if (i <= 0) toAdd[w] -= 1;
+                })
+            );
             winners.push(toAdd);
         });
         console.log(winners);

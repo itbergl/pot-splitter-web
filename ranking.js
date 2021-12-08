@@ -14,7 +14,8 @@ const names = {
     9: 'Flush',
     10: 'Full House',
     11: 'Four of a Kind',
-    17: 'Straight Flush'
+    17: 'Straight Flush',
+    18: 'Royal Flush'
 }
 
 // returns a dictionary with the number of each value
@@ -83,6 +84,9 @@ function handStrength(A) {
     if (detStraight(dic)) out += 8;
     if (detFlush(A)) out += 9;
 
+    if (out == 17) {
+        if (dic.hasOwnProperty('K') && dic.hasOwnProperty('A')) out += 1;
+    }
     return out;
 }
 
@@ -188,17 +192,22 @@ function printable(hand) {
     }
     return ret;
 }
-// console.log(strt.hasOwnProperty())
-// var handA = handFormat('asacahadkd');
-// var handB = handFormat('ahkskckdkh');
-// console.log(compareHands(handA, handB))
 
-// var A = [];
+var bestHands = {
+    "Isaac": handFormat("AhAdAsAcKd"),
+    "Jake": handFormat("2h3d4s5c7s"),
+    "Jake's Mum": handFormat("2h3h4h5h6h")
+};
 
-// var B = [];
 
-// A = B;
+var toAdd = { "Isaac": 3, "Jake": 3, "Jake's Mum": 3 };
+// get all combinations of hands against each other
+var res = Object.keys(bestHands).flatMap(
+    (v, i) => Object.keys(bestHands).slice(i + 1).forEach(w => {
+        const i = compareHands(bestHands[v], bestHands[w]);
+        if (i >= 0) toAdd[v] -= 1;
+        if (i <= 0) toAdd[w] -= 1;
+    })
+);
 
-// B.push('hi');
-
-// console.log(A);
+console.log(toAdd);
