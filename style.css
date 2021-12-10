@@ -37,11 +37,12 @@ body {
 
 .player-input {
     border-radius: 5px;
-    width: 50%;
+    width: 60%;
     margin: 20px;
-    margin-left: 0px;
+    /* margin-left: 0px; */
     padding-top: 15px;
-    padding-left: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
     padding-bottom: 15px;
     background-color: blanchedalmond;
 }
@@ -85,6 +86,11 @@ tr:nth-child(odd) {
 }
 
 .suit-symbol {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.rank-symbol {
     cursor: pointer;
 }
 

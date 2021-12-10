@@ -343,6 +343,7 @@ function calculateAllIn() {
 }
 
 function selectSuit(arg) {
+    // console.log("hhh")
     var input = arg.innerHTML;
     var inputElement = $(arg).closest(".player-input").find(".fhand")
     var prop = inputElement.val() + input;
