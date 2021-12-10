@@ -48,15 +48,22 @@ function submitPlayers(manualInput_param = false) {
     players = {};
     hands = {};
     var inputs = document.querySelector('#players').querySelectorAll(".player-input");
-    Array.prototype.forEach.call(inputs, element => {
-        var name = element.querySelector("#fname").value;
-        var chips = element.querySelector("#fchips").value;
-        var hand = element.querySelector("#fhand").value;
-        if (name == "" || chips == "") return;
+    try {
+        Array.prototype.forEach.call(inputs, element => {
 
-        players[name] = parseInt(chips);
-        hands[name] = handFormat(hand);
-    });;
+            var name = element.querySelector("#fname").value;
+            var chips = element.querySelector("#fchips").value;
+            var hand = element.querySelector("#fhand").value;
+            if (name == "" || chips == "") throw BreakException;
+            console.log(hand.length)
+            if (!(hand.length == 0 || hand.length == 4)) throw BreakException;
+
+            players[name] = parseInt(chips);
+            hands[name] = toInputFormat(hand);
+        });;
+    } catch (e) {
+        return;
+    }
     player_list = Object.keys(players);
     console.log(player_list)
     numPlayers = player_list.length;
@@ -91,12 +98,14 @@ function submitPlayers(manualInput_param = false) {
 // callback to submit pot form, deletes the form div and loads the next page
 function submitPot() {
     if (manualInput) numBoards = parseInt(document.getElementById('fnumboard').value);
-
-    pot = parseInt(document.getElementById('fpot').value);
+    var pot_input = document.getElementById('fpot').value;
+    if (pot_input == "") return;
+    pot = parseInt();
+    if (pot < 0) return;
 
     boards = [];
     document.querySelectorAll('#fboard').forEach(input => {
-        if (input.value) boards.push(handFormat(input.value));
+        if (input.value) boards.push(toInputFormat(input.value));
     });
     // console.log(boards);
 
@@ -325,4 +334,18 @@ function calculateAllIn() {
         out[key] = Math.round(players_copy[key] - players_unmuted[key]);
     }
     return [out, summary];
+}
+
+function selectSuit(arg) {
+    var input = arg.innerHTML;
+    var inputElement = $(arg).closest(".player-input").find(".fhand")
+    var prop = inputElement.val() + input;
+    if (prop.length % 2 == 0) {
+
+        if (!validateString(prop)) return;
+    } else {
+
+        if (!strt.hasOwnProperty(input)) return;
+    }
+    inputElement.val(inputElement.val() + input);
 }

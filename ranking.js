@@ -2,7 +2,7 @@
 
 // assigns value to each hand rank
 const strt = { '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14 };
-const suits = { 's': '\u2660', 'c': '\u2663', 'h': '\u2665', 'd': '\u2666' };
+const suits = { '♠': 's', '♣': 'c', '♥': 'h', '♦': 'd' };
 // console.log(suits)
 // derived values of all hands
 const names = {
@@ -151,20 +151,68 @@ function bestHand(hand, board) {
 
 // console.log(a);
 // returns a formatted string of a hand
-function handFormat(hand) {
-    if (hand.length == 0) return undefined;
+
+// TODO UNIT TESTING
+function toInputFormat(hand, sort = false) {
+    if (hand.length == 0) return hand;
     var ret = hand.match(/.{1,2}/g);
+    // console.log(ret)
     // validate input and ensure capitalisation
     for (var i = 0; i < ret.length; i++) {
         const rank = ret[i].charAt(0).toUpperCase();
-        const suit = ret[i].charAt(1).toLowerCase();
-
-        if (!(strt.hasOwnProperty(rank)) || !(suits.hasOwnProperty(suit))) return undefined;
-
+        const suit = suits[ret[i].charAt(1).toLowerCase()] || ret[i].charAt(1).toLowerCase();
+        // console.log(rank)
+        // console.log(ret[i])
+        // if (!(strt.hasOwnProperty(rank)) || !(suits.hasOwnProperty(suit))) return undefined;
+        // console.log(1)
         ret[i] = rank + suit;
     }
+    return sort ? sortHand(ret) : ret;
+}
 
-    return sortHand(ret);
+// TODO UNIT TESTING
+function toOutputFormat(hand) {
+    if (hand.length == 0) return undefined;
+    var ret = hand.map(c => {
+        return Object.keys(suits).find(key => suits[key] === c) || c;
+    });
+
+    // // validate input and ensure capitalisation
+    // for (var i = 0; i < ret.length; i++) {
+    //     const rank = ret[i].charAt(0);
+    //     const suit = ret[i].charAt(1);
+    //     // console.log(rank)
+    //     // console.log(ret[i])
+    //     if (!(strt.hasOwnProperty(rank)) || !(suits.hasOwnProperty(suit))) return undefined;
+    //     // console.log(1)
+    //     ret[i] = rank + suit;
+    // }
+
+
+    return ret.join(', ');
+}
+
+function validateHand(hand) {
+    // console.log(hand)
+    //every even is a rank
+    var ret = true;
+    hand.forEach(c => {
+        const rank = c[0];
+        const suit = Object.keys(suits).find(key => suits[key] == c[1]);
+        if (!strt.hasOwnProperty(rank) || (typeof suit === 'undefined')) {
+            ret = false;
+            return false;
+        }
+    })
+    return ret;
+    //every odd is a suit
+
+}
+// var a = toOutputFormat(toInputFormat("2dAc3h"))
+// console.log(a)
+
+function validateString(hand) {
+    return validateHand(toInputFormat(hand));
 }
 
 function sortHand(ret) {
@@ -194,9 +242,9 @@ function printable(hand) {
 }
 
 var bestHands = {
-    "Isaac": handFormat("AhAdAsAcKd"),
-    "Jake": handFormat("2h3d4s5c7s"),
-    "Jake's Mum": handFormat("2h3h4h5h6h")
+    "Isaac": toInputFormat("AhAdAsAcKd"),
+    "Jake": toInputFormat("2h3d4s5c7s"),
+    "Jake's Mum": toInputFormat("2h3h4h5h6h")
 };
 
 

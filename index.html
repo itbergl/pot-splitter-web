@@ -13,9 +13,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="images/icon.png">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 </head>
 
 <body>
+
     <button class="button" type="button" onclick="goBack()">←</button>
     <div id="display">
         <div id="player-screen">
@@ -27,7 +29,28 @@
 
                 </div>
                 <div class="player-input">
-                    Name: <input type="text" id="fname" value=""><br><br> Chips: <input type="number" id="fchips" value=""><br><br>Hand: <input type="text" id="fhand" value="">
+                    Name: <input type="text" class="fname" id="fname" value=""><br><br> Chips: <input type="number" id="fchips" value=""><br><br>Hand: <input type="text" class="fhand" id="fhand" value="">
+                    <div class="card-input" style="font-weight: bold;">
+                        <span class="suit-symbol" onclick="selectSuit(this)">A</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">K</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">Q</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">J</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">T</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">9</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">8</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">7</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">6</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">5</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">4</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">3</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">2</span>
+                    </div>
+                    <div class="card-input">
+                        <span class="suit-symbol" onclick="selectSuit(this)">&spades;</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)" style="color:red">&hearts;</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)">&clubs;</span>
+                        <span class="suit-symbol" onclick="selectSuit(this)" style="color:red">&diams;</span>
+                    </div>
                 </div>
             </div>
         </div>
