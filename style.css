@@ -87,14 +87,23 @@ tr:nth-child(odd) {
 
 .suit-symbol {
     font-size: 25px;
+    background-color: transparent;
+    outline: none;
+    border: none;
     cursor: pointer;
 }
 
 .rank-symbol {
+    font-weight: bold;
     cursor: pointer;
+    padding: 3px;
+    background-color: transparent;
+    outline: none;
+    border: none;
 }
 
 .card-input {
-    width: auto;
+    width: 60%;
+    margin: auto;
     background-color: rgba(179, 157, 127, 0.904)
 }

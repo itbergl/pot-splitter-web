@@ -30,26 +30,26 @@
                 </div>
                 <div class="player-input">
                     Name: <input type="text" class="fname" id="fname" value=""><br><br> Chips: <input type="number" id="fchips" value=""><br><br>Hand: <input type="text" class="fhand" id="fhand" value="">
-                    <div class="card-input" style="font-weight: bold;">
-                        <span class="rank-symbol">A</span>
-                        <span class="rank-symbol">K</span>
-                        <span class="rank-symbol">Q</span>
-                        <span class="rank-symbol">J</span>
-                        <span class="rank-symbol">T</span>
-                        <span class="rank-symbol">9</span>
-                        <span class="rank-symbol">8</span>
-                        <span class="rank-symbol">7</span>
-                        <span class="rank-symbol">6</span>
-                        <span class="rank-symbol">5</span>
-                        <span class="rank-symbol">4</span>
-                        <span class="rank-symbol">3</span>
-                        <span class="rank-symbol">2</span>
+                    <div class="card-input" style="font-weight: bold;font-size:0px; padding:0px">
+                        <button class="rank-symbol " onclick="selectSuit(this) ">A</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">K</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">Q</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">J</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">T</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">9</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">8</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">7</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">6</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">5</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">4</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">3</button>
+                        <button class="rank-symbol " onclick="selectSuit(this) ">2</button>
                     </div>
                     <div class="card-input ">
-                        <span class="suit-symbol ">&spades;</span>
-                        <span class="suit-symbol " style="color:red ">&hearts;</span>
-                        <span class="suit-symbol ">&clubs;</span>
-                        <span class="suit-symbol " style="color:red ">&diams;</span>
+                        <button class="suit-symbol " onclick="selectSuit(this) ">&spades;</button>
+                        <button class="suit-symbol " style="color:red " onclick="selectSuit(this) ">&hearts;</button>
+                        <button class="suit-symbol " onclick="selectSuit(this) ">&clubs;</button>
+                        <button class="suit-symbol " style="color:red " onclick="selectSuit(this) ">&diams;</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
     <script src="script.js " async defer>
     </script>
     <script>
-        $(document).on('click touchstart', "span", function() {
+        $(document).on('click touchstart', "span ", function() {
             selectSuit(this)
         })
     </script>
