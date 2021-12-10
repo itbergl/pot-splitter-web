@@ -133,20 +133,47 @@ function compareHands(A, B) {
 // finds the best possible hand given hole cards and a board
 function bestHand(hand, board) {
     var cards = hand.concat(board);
+    var omaha = (hand.length == 4) ? true : false;
+    var result = [];
 
-    var result = cards.flatMap(
-        (v, i) => cards.slice(i + 1).map(w => [v, w])
-    );
+    if (omaha) {
+        var from_hand = cards.flatMap(
+            (v, i) => hand.slice(i + 1).map(w => [v, w])
+        );
 
-    result = result.map(x => {
-        return cards.filter(a => a != x[0] && a != x[1]);
-    })
+        var from_board = board.flatMap(
+            (v, i) => board.slice(i + 1).map(w => [v, w])
+        );
 
+        from_board = from_board.map(x => {
+            return board.filter(a => a != x[0] && a != x[1])
+        })
+
+        for (var i = 0; i < from_hand.length; i++) {
+            for (var j = 0; j < from_board.length; j++) {
+                result.push((from_hand[i] + ',' + from_board[j]).split(','));
+            }
+        }
+
+    } else {
+        //every cominbation of 2 cards 
+        result = cards.flatMap(
+            (v, i) => cards.slice(i + 1).map(w => [v, w])
+        );
+
+        // remove those cards from a complete list of cards
+        result = result.map(x => {
+            return cards.filter(a => a != x[0] && a != x[1]);
+        })
+    }
     return sortHand(result.reduce((prev, curr) => {
         return compareHands(prev, curr) > 0 ? prev : curr;
     }));
 
 }
+var hand = ['2d', '3c', '5d', '4s'];
+var board = ['3h', '3d', '6h', '7d', '9d'];
+console.log(toOutputFormat(bestHand(hand, board)));
 // var a = bestHand(handFormat('TdAd'), handFormat('Ac3c4d5cTs'));
 
 // console.log(a);
@@ -172,25 +199,16 @@ function toInputFormat(hand, sort = false) {
 
 // TODO UNIT TESTING
 function toOutputFormat(hand) {
-    if (hand.length == 0) return undefined;
-    var ret = hand.map(c => {
-        return Object.keys(suits).find(key => suits[key] === c) || c;
-    });
-
-    // // validate input and ensure capitalisation
-    // for (var i = 0; i < ret.length; i++) {
-    //     const rank = ret[i].charAt(0);
-    //     const suit = ret[i].charAt(1);
-    //     // console.log(rank)
-    //     // console.log(ret[i])
-    //     if (!(strt.hasOwnProperty(rank)) || !(suits.hasOwnProperty(suit))) return undefined;
-    //     // console.log(1)
-    //     ret[i] = rank + suit;
-    // }
-
-
-    return ret.join(', ');
+    var ret = "";
+    for (var i = 0; i < hand.length; i++) {
+        ret += hand[i].charAt(0);
+        ret += Object.keys(suits).find(key => suits[key] == hand[i].charAt(1));
+        if (i != hand.length - 1) ret += ', '
+    }
+    return ret;
 }
+
+// console.log(toOutputFormat(['Td', '3c', '3s', '2c', '2s']))
 
 function validateHand(hand) {
     // console.log(hand)

@@ -89,5 +89,6 @@ tr:nth-child(odd) {
 }
 
 .card-input {
+    width: auto;
     background-color: rgba(179, 157, 127, 0.904)
 }

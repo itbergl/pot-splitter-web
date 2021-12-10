@@ -5,6 +5,7 @@ var pot = 0;
 var hands = {}; // maps players to a hand
 var boards = []; // list of boards
 var manualInput = false;
+// var omaha = false;
 
 // derived from form variables
 var numPlayers = 0;
@@ -56,7 +57,7 @@ function submitPlayers(manualInput_param = false) {
             var hand = element.querySelector("#fhand").value;
             if (name == "" || chips == "") throw BreakException;
             console.log(hand.length)
-            if (!(hand.length == 0 || hand.length == 4)) throw BreakException;
+            if (!(hand.length == 0 || hand.length == 4 || hand.length == 8)) throw BreakException;
 
             players[name] = parseInt(chips);
             hands[name] = toInputFormat(hand);
@@ -100,7 +101,7 @@ function submitPot() {
     if (manualInput) numBoards = parseInt(document.getElementById('fnumboard').value);
     var pot_input = document.getElementById('fpot').value;
     if (pot_input == "") return;
-    pot = parseInt();
+    pot = parseInt(pot_input);
     if (pot < 0) return;
 
     boards = [];
@@ -317,9 +318,14 @@ function calculateAllIn() {
                         players_copy[p] += split;
                         summary_temp += `<p>${p} wins ${Math.round(split)}`;
                         if (!manualInput) {
-                            var bh = bestHand(boards[index], hands[p]);
+                            var bh = bestHand(hands[p], boards[index]);
+                            console.log(boards[index])
+                            console.log(hands[p])
+                            console.log(hands[p].length)
+                            console.log('best hand ' + bh)
+                            console.log('output ' + toOutputFormat(bh))
                             summary_temp += ` with ${names[handStrength(bh)]}`;
-                            summary_temp += ' (' + printable(bh) + ')';
+                            summary_temp += ' (' + toOutputFormat(bh) + ')';
                         }
                         summary_temp += '</p>';
                     }
