@@ -29,40 +29,43 @@
 
                 </div>
                 <div class="player-input">
-                    Name: <input type="text" class="fname" id="fname" value=""><br><br> Chips: <input type="number" id="fchips" value=""><br><br>Hand: <input type="text" class="fhand" id="fhand" value="">
+                    Name: <input type="text" class="fname" id="fname" value=""><br><br> Chips: <input type="number" id="fchips" value=""><br><br>Hand: <input type="text" class="fcardinput" id="fcardinput" value="">
                     <div class="card-input" style="font-weight: bold;font-size:0px; padding:0px">
-                        <button class="rank-symbol " onclick="selectSuit(this) ">A</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">K</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">Q</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">J</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">T</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">9</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">8</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">7</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">6</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">5</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">4</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">3</button>
-                        <button class="rank-symbol " onclick="selectSuit(this) ">2</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">A</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">K</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">Q</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">J</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">T</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">9</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">8</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">7</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">6</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">5</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">4</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">3</button>
+                        <button class="rank-symbol " onclick="selectSuit(this, true) ">2</button>
                     </div>
                     <div class="card-input ">
-                        <button class="suit-symbol " onclick="selectSuit(this) ">&spades;</button>
-                        <button class="suit-symbol " style="color:red " onclick="selectSuit(this) ">&hearts;</button>
-                        <button class="suit-symbol " onclick="selectSuit(this) ">&clubs;</button>
-                        <button class="suit-symbol " style="color:red " onclick="selectSuit(this) ">&diams;</button>
+                        <button class="suit-symbol " onclick="selectSuit(this, true) ">&spades;</button>
+                        <button class="suit-symbol " style="color:red " onclick="selectSuit(this, true) ">&hearts;</button>
+                        <button class="suit-symbol " onclick="selectSuit(this, true) ">&clubs;</button>
+                        <button class="suit-symbol " style="color:red " onclick="selectSuit(this, true) ">&diams;</button>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+    <script src="html_const.js"></script>
     <script src="ranking.js " async defer>
     </script>
     <script src="script.js " async defer>
+        $('.suit-symbol').on('click touchstart', selectSuit(this, true));
+        // $('.suit-symbol').on('click touchstart', console.log('hi'));
     </script>
     <script>
-        $(document).on('click touchstart', "span ", function() {
-            selectSuit(this)
-        })
+        // $('.suit-symbol').on('click touchstart', selectSuit(this));
+        // $('.suit-symbol').on('click touchstart', console.log('hi'));
     </script>
 
 </body>

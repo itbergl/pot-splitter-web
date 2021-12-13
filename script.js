@@ -36,10 +36,12 @@ function addPlayer() {
 
 // callback to add board input entry
 function addBoard() {
-    numBoards++; //FIX - ensure empty boards are not counted by the end
+    numBoards++;
+    //FIX - ensure empty boards are not counted by the end
     var div = document.createElement('div');
     div.setAttribute('class', 'player-input');
-    div.innerHTML = `Board ${numBoards} ` + '<input type="text" id="fboard" name="fboard">';
+    div.innerHTML = `Board ${numBoards} ` + '<input type="text" id="fboard" class="fcardinput">' + makeButtons(() => i + 1);
+
     document.getElementById("pot-screen").appendChild(div);
 }
 
@@ -54,7 +56,7 @@ function submitPlayers(manualInput_param = false) {
 
             var name = element.querySelector("#fname").value;
             var chips = element.querySelector("#fchips").value;
-            var hand = element.querySelector("#fhand").value;
+            var hand = element.querySelector(".fcardinput").value;
             if (name == "" || chips == "") throw BreakException;
             console.log(hand.length)
             if (!(hand.length == 0 || hand.length == 4 || hand.length == 8)) throw BreakException;
@@ -63,6 +65,7 @@ function submitPlayers(manualInput_param = false) {
             hands[name] = toInputFormat(hand);
         });;
     } catch (e) {
+        console.log('here');
         return;
     }
     player_list = Object.keys(players);
@@ -88,7 +91,7 @@ function submitPlayers(manualInput_param = false) {
         'Pot Size: <input type="number" id="fpot" name="fpot" value=""><br><br>';
 
     if (manualInput) codeBlock += 'Number of Boards: <input type="number" id="fnumboard" value=""></div>';
-    else codeBlock += `</div><div class="player-input">Board ${numBoards} ` + '<input type="text" id="fboard" value=""></div>';
+    else codeBlock += `</div><div class="player-input">Board ${numBoards} ` + '<input class ="fcardinput" type="text" id="fcardinput" value="">' + makeButtons() + '</div>';
 
     var div = document.createElement('div');
     div.setAttribute('id', 'pot-screen');
@@ -105,7 +108,7 @@ function submitPot() {
     if (pot < 0) return;
 
     boards = [];
-    document.querySelectorAll('#fboard').forEach(input => {
+    document.querySelectorAll('.fcardinput').forEach(input => {
         if (input.value) boards.push(toInputFormat(input.value));
     });
     // console.log(boards);
@@ -304,6 +307,7 @@ function calculateAllIn() {
         }
 
         sidepot_count++;
+        console.log(winners);
         winners.forEach((b, index) => {
                 summary_temp += `<h3>Board ${board_count}</h3>`;
                 board_count++;
@@ -342,10 +346,10 @@ function calculateAllIn() {
     return [out, summary];
 }
 
-function selectSuit(arg) {
+function selectSuit(arg, playerScreen) {
     // console.log("hhh")
     var input = arg.innerHTML;
-    var inputElement = $(arg).closest(".player-input").find(".fhand")
+    var inputElement = $(arg).closest(".player-input").find(".fcardinput")
     var prop = inputElement.val() + input;
     if (prop.length % 2 == 0) {
 
