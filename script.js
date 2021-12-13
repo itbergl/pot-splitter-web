@@ -347,8 +347,8 @@ function calculateAllIn() {
     return [out, summary];
 }
 
-function selectSuit(e) {
-    var arg = e.target;
+function selectSuit(arg) {
+    // var arg = e.target;
     // console.log("hhh")
     var input = arg.innerHTML;
     // console.log("here")
