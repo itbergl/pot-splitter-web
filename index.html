@@ -18,15 +18,15 @@
 
 <body>
 
-    <button class="button" type="button" onclick="goBack()">←</button>
+    <!-- <button class="button" type="button" onclick="goBack()">←</button> -->
     <div id="display">
 
         <div id="player-screen">
             <div name="playerList" id="players">
                 <div>
-                    <button class="button" type="button" onclick="submitPlayers()">Next</button>
+                    <!-- <button class="button" type="button" onclick="submitPlayers()">Next</button>
                     <button class="button" type="button" onclick="toggleWinnerInput()">Next (manual input)</button>
-                    <button class="button" type="button" onclick="addPlayer()">+</button>
+                    <button class="button" type="button" onclick="addPlayer()">+</button> -->
 
                 </div>
                 <div class="player-input">
@@ -66,8 +66,8 @@
     </script>
     <script>
         $(document).ready(() => {
-            $('.rank-symbol').on('click touchstart', e => addPlayer());
-            $('.suit-symbol').on('click touchstart', e => selectSuit(e));
+            $('.rank-symbol').on('click touchstart', '.rank-symbol', e => selectSuit(e));
+            $('.suit-symbol').on('click touchstart', 'suit-symbol', e => selectSuit(e));
 
         })
     </script>
