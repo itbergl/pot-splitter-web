@@ -66,8 +66,8 @@
     </script>
     <script>
         $(document).ready(() => {
-            $('.rank-symbol').on('vclick click', e => selectSuit(e));
-            $('.suit-symbol').on('vclick click', e => selectSuit(e));
+            $('.rank-symbol').on('vclick click tap touchstart', e => selectSuit(e)); //adding them all because I'm exhausted at this point
+            $('.suit-symbol').on('vclick click tap touchstart', e => selectSuit(e));
 
         })
     </script>
