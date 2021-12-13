@@ -6,7 +6,8 @@ var hands = {}; // maps players to a hand
 var boards = []; // list of boards
 var manualInput = false;
 // var omaha = false;
-
+// $('.rank-symbol').on('click touchstart', selectSuit(this));
+// $('.suit-symbol').on('click touchstart', selectSuit(this));
 // derived from form variables
 var numPlayers = 0;
 var player_list = [];
@@ -346,9 +347,11 @@ function calculateAllIn() {
     return [out, summary];
 }
 
-function selectSuit(arg, playerScreen) {
+function selectSuit(e) {
+    var arg = e.target;
     // console.log("hhh")
     var input = arg.innerHTML;
+    // console.log("here")
     var inputElement = $(arg).closest(".player-input").find(".fcardinput")
     var prop = inputElement.val() + input;
     if (prop.length % 2 == 0) {
