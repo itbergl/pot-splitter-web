@@ -20,7 +20,7 @@
 
     <button class="button" type="button" onclick="goBack()">←</button>
     <div id="display">
-        <p style="color: white;">13/12 17:28</p>
+
         <div id="player-screen">
             <div name="playerList" id="players">
                 <div>
@@ -57,6 +57,7 @@
                 </div>
             </div>
         </div>
+        <p style="color: white;">13/12 17:56</p>
     </div>
     <script src="html_const.js"></script>
     <script src="ranking.js " async defer>
@@ -64,8 +65,11 @@
     <script src="script.js " async defer>
     </script>
     <script>
-        $('.rank-symbol').on('click touchstart', e => selectSuit(e));
-        $('.suit-symbol').on('click touchstart', e => selectSuit(e));
+        $(document).ready(() => {
+            $('.rank-symbol').on('click touchstart', e => selectSuit(e));
+            $('.suit-symbol').on('click touchstart', e => selectSuit(e));
+
+        })
     </script>
 
 </body>
