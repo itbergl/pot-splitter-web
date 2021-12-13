@@ -33,7 +33,7 @@
                     Name: <input type="text" class="fname" id="fname" value=""><br><br> Chips: <input type="number" id="fchips" value=""><br><br>Hand: <input type="text" class="fcardinput" id="fcardinput" value="">
                     <div class="card-input" style="font-weight: bold;font-size:0px; padding:0px">
                         <!-- <button type="button" class="button" onclick="selectSuit(this, true)">A</button> -->
-                        <button type="button" class="rank-symbol" onclick="selectSuit(this)">A</button>
+                        <button type="button" class="button" onclick="selectSuit(this)">A</button>
                         <button type="button" class="rank-symbol">K</button>
                         <button type="button" class="rank-symbol">Q</button>
                         <button type="button" class="rank-symbol">J</button>
@@ -48,7 +48,7 @@
                         <button type="button" class="rank-symbol">2</button>
                     </div>
                     <div class="card-input ">
-                        <button type="button" class="suit-symbol" onclick="selectSuit(this)">&spades;</button>
+                        <button type="button" class="button" onclick="selectSuit(this)">&spades;</button>
                         <button type="button" class="suit-symbol " style="color:red ">&hearts;</button>
                         <button type="button" class="suit-symbol ">&clubs;</button>
                         <button type="button" class="suit-symbol " style="color:red ">&diams;</button>
@@ -65,11 +65,6 @@
     <script src="script.js " async defer>
     </script>
     <script>
-        // $(document).ready(() => {
-        //     $('.rank-symbol').on('vclick click tap touchstart', e => selectSuit(e)); //adding them all because I'm exhausted at this point
-        //     $('.suit-symbol').on('vclick click tap touchstart', e => selectSuit(e));
-
-        // })
     </script>
 
 </body>
