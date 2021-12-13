@@ -353,7 +353,7 @@ function selectSuit(arg) {
     var input = arg.innerHTML;
     // console.log("here")
     // var inputElement = $(arg).closest(".player-input").find(".fcardinput")
-    var inputElement = $('.fcardinput');
+    var inputElement = $('.fcardinput').remove();
     var prop = inputElement.val() + input;
     if (prop.length % 2 == 0) {
 
