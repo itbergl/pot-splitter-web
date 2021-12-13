@@ -58,6 +58,7 @@ input {
     border-radius: 5px;
     cursor: pointer;
     background-color: blanchedalmond;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .button:hover {
@@ -114,5 +115,6 @@ tr:nth-child(odd) {
 .card-input {
     width: 60%;
     margin: auto;
+    -webkit-tap-highlight-color: transparent;
     background-color: rgba(179, 157, 127, 0.904)
 }
