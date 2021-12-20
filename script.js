@@ -367,5 +367,5 @@ function selectSuit(arg) {
     }
 
     // append to input
-    inputElement.val(inputElement.val() + input);
+    inputElement.val(prop);
 }
