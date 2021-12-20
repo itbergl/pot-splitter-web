@@ -348,6 +348,7 @@ function calculateAllIn() {
 }
 
 function selectSuit(arg) {
+    console.log("Touched");
     // var arg = e.target;
     // console.log("hhh")
     var input = arg.innerHTML;
