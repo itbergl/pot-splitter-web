@@ -347,21 +347,25 @@ function calculateAllIn() {
     return [out, summary];
 }
 
+// callback function for card input symbols
 function selectSuit(arg) {
-    console.log("Touched");
-    // var arg = e.target;
-    // console.log("hhh")
     var input = arg.innerHTML;
     // console.log("here")
-    // var inputElement = $(arg).closest(".player-input").find(".fcardinput")
-    var inputElement = $('.fcardinput').remove();
-    var prop = inputElement.val() + input;
-    if (prop.length % 2 == 0) {
+    var inputElement = $(arg).closest(".player-input").find(".fcardinput");
+    // var inputElement = $('.fcardinput').remove();
 
+    // the proposed input
+    var prop = inputElement.val() + input;
+
+    // on every second input
+    if (prop.length % 2 == 0) {
+        // check if this is a valid input string
         if (!validateString(prop)) return;
     } else {
-
+        // bad way of solving - only accept if it's a rank
         if (!strt.hasOwnProperty(input)) return;
     }
+
+    // append to input
     inputElement.val(inputElement.val() + input);
 }
