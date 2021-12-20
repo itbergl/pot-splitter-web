@@ -118,3 +118,9 @@ tr:nth-child(odd) {
     -webkit-tap-highlight-color: transparent;
     background-color: rgba(179, 157, 127, 0.904)
 }
+
+@media only screen and (max-width: 1080px) {
+    .player-input {
+        width: 95%;
+    }
+}
